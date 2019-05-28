@@ -1,6 +1,7 @@
 <script>
 	import Info from './User.svelte';
 	import Todo from './Todo.svelte';
+	import { onMount } from 'svelte';
 
 	export let name;
 
@@ -9,16 +10,23 @@
 		{ id: '1', name: 'todo2', description: 'do this second', complete: false }
 	]
 
+
+	import { Auth } from './firebase';
+
 	let user;
 
-	function login() {
-		user = {
-			username: 'jeffd23',
-		}
+	onMount(async () =>  {
+		user = await Auth.currentUser;
+	});
+
+	async function login() {
+		const credential = await Auth.signInWithEmailAndPassword('bob@example.com', 'firebase23')
+		user = credential.user;
+		console.log(user)
 	}
 
-	function logout() {
-		user = null;
+	async function logout() {
+		Auth.signOut();
 	}
 </script>
 
@@ -35,7 +43,7 @@
 
 <main class="content">
 {#if user}
-	<h2>Logged in as {user.username}</h2>
+	<h2>Logged in as <span class="text-has-info">{user.email}</span></h2>
 	<button on:click={logout} class="button">
 		Log out
 	</button>
