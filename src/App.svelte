@@ -1,76 +1,84 @@
 <script>
-	import { onMount } from 'svelte';
-	import Info from './User.svelte';
-	import Todo from './Todo.svelte';
+  import { onMount } from "svelte";
+  import Info from "./User.svelte";
+  import Todo from "./Todo.svelte";
 
-	export let name;
+  export let name;
 
-	let todos = [
-		{ id: '0', name: 'todo1', description: 'do this first', complete: false },
-		{ id: '1', name: 'todo2', description: 'do this second', complete: false }
-	]
+  let todos = [
+    { id: "0", name: "todo1", description: "do this first", complete: false },
+    { id: "1", name: "todo2", description: "do this second", complete: false }
+  ];
 
+  import Auth from "@aws-amplify/auth";
 
-	//// USER AUTH
+  import gql from "graphql-tag";
+  import client from './client';
 
-	import Auth from '@aws-amplify/auth';
+  import { listTodos } from "./graphql/queries";
 
-	let user;
+  let user;
 
-	onMount(async () => {
-		user = await Auth.currentUserInfo();
-		console.log(user);
-	});
+  onMount(async () => {
+    user = await Auth.currentUserInfo();
+    console.log(user);
 
-	async function login() {
-		const credentials = await Auth.signIn({
-			username: 'jeffd23',
-			password: 'amplify23'
-		});
+    client
+      .query({
+        query: gql(listTodos)
+      })
+      .then(({ data: { listTodos } }) => {
+        todos = listTodos.items;
+      });
+  });
 
-		console.log(credentials);
+  async function login() {
+    const credentials = await Auth.signIn({
+      username: "jeffd23",
+      password: "amplify23"
+    });
 
-		user = credentials;
-	}
+    console.log(credentials);
 
-	function logout() {
-		Auth.signOut();
-	}
+    user = credentials;
+  }
+
+  function logout() {
+    Auth.signOut();
+  }
 </script>
 
 <style>
-	main { 
-		padding: 5%;
-		text-align: center;
-	}
+  main {
+    padding: 5%;
+    text-align: center;
+  }
 </style>
 
 <svelte:head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" />
 </svelte:head>
 
 <main class="content">
-{#if user}
-	<h2>Logged in as <span class="has-text-info">{user.username}</span></h2>
-	<button on:click={logout} class="button">
-		Log out
-	</button>
+  {#if user}
+    <h2>
+      Logged in as
+      <span class="has-text-info">{user.username}</span>
+    </h2>
+    <button on:click={logout} class="button">Log out</button>
 
-	<hr>
+    <hr />
 
-	<h2>My Todos</h2>
+    <h2>My Todos</h2>
 
-	{#each todos as todo}
-		<Todo {...todo} />
-		<hr>
-	{/each}
-
-{:else}
-	<button on:click={login} class="button is-success">
-		Log in please
-	</button>
-{/if}
-
+    {#each todos as todo}
+      <Todo {...todo} />
+      <hr />
+    {/each}
+  {:else}
+    <button on:click={login} class="button is-success">Log in please</button>
+  {/if}
 
 </main>
-
