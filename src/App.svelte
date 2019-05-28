@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from 'svelte';
 	import Info from './User.svelte';
 	import Todo from './Todo.svelte';
 
@@ -9,16 +10,31 @@
 		{ id: '1', name: 'todo2', description: 'do this second', complete: false }
 	]
 
+
+	//// USER AUTH
+
+	import Auth from '@aws-amplify/auth';
+
 	let user;
 
-	function login() {
-		user = {
+	onMount(async () => {
+		user = await Auth.currentUserInfo();
+		console.log(user);
+	});
+
+	async function login() {
+		const credentials = await Auth.signIn({
 			username: 'jeffd23',
-		}
+			password: 'amplify23'
+		});
+
+		console.log(credentials);
+
+		user = credentials;
 	}
 
 	function logout() {
-		user = null;
+		Auth.signOut();
 	}
 </script>
 
@@ -35,7 +51,7 @@
 
 <main class="content">
 {#if user}
-	<h2>Logged in as {user.username}</h2>
+	<h2>Logged in as <span class="has-text-info">{user.username}</span></h2>
 	<button on:click={logout} class="button">
 		Log out
 	</button>
@@ -51,7 +67,7 @@
 
 {:else}
 	<button on:click={login} class="button is-success">
-		Log in
+		Log in please
 	</button>
 {/if}
 

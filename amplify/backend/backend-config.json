@@ -1,0 +1,8 @@
+{
+	"auth": {
+		"testauth": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation"
+		}
+	}
+}

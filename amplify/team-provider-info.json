@@ -1,0 +1,19 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "fire-v-amp-dev-20190527084222-authRole",
+            "UnauthRoleArn": "arn:aws:iam::921223130750:role/fire-v-amp-dev-20190527084222-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::921223130750:role/fire-v-amp-dev-20190527084222-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "fire-v-amp-dev-20190527084222-deployment",
+            "UnauthRoleName": "fire-v-amp-dev-20190527084222-unauthRole",
+            "StackName": "fire-v-amp-dev-20190527084222",
+            "StackId": "arn:aws:cloudformation:us-east-1:921223130750:stack/fire-v-amp-dev-20190527084222/0635ce30-8096-11e9-81c1-120371d9064c"
+        },
+        "categories": {
+            "auth": {
+                "testauth": {}
+            }
+        }
+    }
+}
