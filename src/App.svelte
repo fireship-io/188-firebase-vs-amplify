@@ -12,11 +12,22 @@
 
 
 	import { Auth } from './firebase';
+	import { Firestore } from './firebase';
 
 	let user;
 
 	onMount(async () =>  {
 		user = await Auth.currentUser;
+
+		const ref = Firestore.collection('todos');
+
+		ref.onSnapshot(snapshot => {
+			console.log(snapshot)
+			todos = snapshot.docs.map(doc => {
+				return { ...doc.data(), id: doc.id }
+			})
+			console.log(todos)
+		});
 	});
 
 	async function login() {
@@ -28,6 +39,20 @@
 	async function logout() {
 		Auth.signOut();
 	}
+
+
+	/// FIRESTORE
+
+
+	async function getTodos(userId) {
+		const user = Auth.currentUser;
+
+		
+	}
+
+	complete
+
+	
 </script>
 
 <style>

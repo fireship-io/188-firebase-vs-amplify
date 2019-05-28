@@ -3,14 +3,14 @@ import 'firebase/auth';
 import 'firebase/firestore';
 
 const config = {
-	apiKey: "AIzaSyBns4UUCKIfb_3xOesTSezA9GbEyuIU7XA",
-	authDomain: "fireship-app.firebaseapp.com",
-	databaseURL: "https://fireship-app.firebaseio.com",
-	projectId: "fireship-app",
-	storageBucket: "fireship-app.appspot.com",
-	messagingSenderId: "176605045081",
-	appId: "1:176605045081:web:31d6cc4fcd3b8325"
-}
+	apiKey: "AIzaSyCNGXNpOeRLQcJnuSgUXLv8sWcPhvJfyVA",
+	authDomain: "fireship-lessons.firebaseapp.com",
+	databaseURL: "https://fireship-lessons.firebaseio.com",
+	projectId: "fireship-lessons",
+	storageBucket: "fireship-lessons.appspot.com",
+	messagingSenderId: "758773997881",
+	appId: "1:758773997881:web:8991643725992873"
+  };
 
 firebase.initializeApp(config);
 

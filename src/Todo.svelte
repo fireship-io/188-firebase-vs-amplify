@@ -4,9 +4,12 @@
     export let description;
     export let complete;
 
+    import { Firestore } from './firebase';
+
     function handler() {
-        complete = !complete;
-    }
+        const ref = Firestore.doc(`todos/${id}`); 
+        ref.update({ complete: !complete });
+    } 
     
 </script>
 
